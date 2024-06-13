@@ -1,0 +1,28 @@
+1. открываем режим отладки ctrl+shift+c, идем в режим монитора сети (сеть)
+2. стартуем видео ищем файл плейлиста .m3u8
+3. Плей листа дергаем все видео фалы - формат ts:
+grep .ts list.m3u8 > list.txt
+grep .ts list.m3u8 > list2.txt
+4. доавбляем путь к файлам такойже как и путь к плейлисту
+awk '{print "dfront.net/video/"$0}' list.txt > new_list1.txt
+5. качаем файлы ts
+wget -c -i new_list1.txt
+6. Объединяем файлы в один
+cat *.ts > uotput.ts
+7. конвертируем видео в VLC или так
+ffmpeg -i uotput.ts -vcodec mpeg4 -acodec mp3 uotput.ts.mpg
+8. если надо изменяем разрешение
+ffmpeg -i 1920x1080.mpg -vf scale=800x450,setsar=1:1 800x450.mpg
+9. Наносим надпись на видео
+центр экрана: ffmpeg -i DOD_110305707-1920x1080.mpg -vf drawtext=":text='@brosok_mangusta_Z':fontsize=40:fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2" DOD_110305707.mp4
+верх середина экрана:ffmpeg -i DOD_110305707.mp4 -vf drawtext=":text='@brosok_mangusta_Z':fontsize=40:fontcolor=white:x=(w-text_w)/2:y=10" DOD_110305707-.mp4
+низ середина экрана: ffmpeg -i DOD_110305707-.mp4 -vf drawtext=":text='@brosok_mangusta_Z':fontsize=40:fontcolor=yellow:x=(w-text_w)/2:y=h-th-10" DOD_110305707--.mp4
+
+Position 	x:y 	                       With 10 px padding
+Top left 	x=0:y=0 	               x=10:y=10
+Top center 	x=(w-text_w)/2:y=0             x=(w-text_w)/2:y=10
+Top right 	x=w-tw:y=0 	               x=w-tw-10:y=10
+Centered 	x=(w-text_w)/2:y=(h-text_h)/2
+Bottom left 	x=0:y=h-th 	               x=10:y=h-th-10
+Bottom center 	x=(w-text_w)/2:y=h-th 	       x=(w-text_w)/2:y=h-th-10
+Bottom right 	x=w-tw:y=h-th 	               x=w-tw-10:y=h-th-10
