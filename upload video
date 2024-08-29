@@ -10,9 +10,9 @@ wget -c -i new_list1.txt
 6. Объединяем файлы в один
 cat *.ts > uotput.ts
 7. конвертируем видео в VLC или так
-ffmpeg -i uotput.ts -vcodec mpeg4 -acodec mp3 uotput.ts.mpg
+ffmpeg -i uotput.ts -c:v libx264 -c:a copy output1111.mp4 
 8. если надо изменяем разрешение
-ffmpeg -i 1920x1080.mpg -vf scale=800x450,setsar=1:1 800x450.mpg
+ffmpeg -i 1920x1080.mpg -vf scale=800x450,setsar=1:1 800x450.mp
 9. Наносим надпись на видео
 центр экрана: ffmpeg -i DOD_110305707-1920x1080.mpg -vf drawtext=":text='@brosok_mangusta_Z':fontsize=40:fontcolor=white:x=(w-text_w)/2:y=(h-text_h)/2" DOD_110305707.mp4
 верх середина экрана:ffmpeg -i DOD_110305707.mp4 -vf drawtext=":text='@brosok_mangusta_Z':fontsize=40:fontcolor=white:x=(w-text_w)/2:y=10" DOD_110305707-.mp4
